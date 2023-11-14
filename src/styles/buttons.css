@@ -1,0 +1,13 @@
+.ButtonGeneric {
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: #222;
+    color: #fff;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .ButtonGeneric:hover {
+    background-color: #444;
+  }
