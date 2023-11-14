@@ -1,7 +1,8 @@
 FROM node:18-alpine
 WORKDIR /app
 COPY package.json .
-RUN npm install
+COPY yarn.lock .
+RUN yarn
 COPY . .
-EXPOSE 8081
-CMD ["npm", "run", "dev"]
+EXPOSE 8010
+CMD ["yarn", "dev", "--host"]

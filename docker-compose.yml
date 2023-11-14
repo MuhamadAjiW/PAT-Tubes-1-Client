@@ -1,15 +1,17 @@
 version: "3.8"
 
 services:
-  pat-client:
+  app:
     build: 
       context: .
-      dockerfile: dockerfile
+      dockerfile: Dockerfile
     ports:
-      - '8010:5173'
+      - '5173:5173'
     volumes:
-      - '.:/app'
+      - .:/app 
       - '/app/node_modules'
+    stdin_open: true
+    tty: true
     networks:
       - dockerNet
 networks:

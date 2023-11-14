@@ -19,7 +19,7 @@ const HomePage: React.FC = () => {
     <div className="App">
       <Header title="Homepage"/>
       <div className='Content' style={{ marginBottom: '10px' }}>
-        Yah ges jadi ini yu ai yu ex asal - asalannya
+        Yah ges jadi ini yu ai yu ex asal - asalannya ya ges
       </div>
       <Link to="/booking" className='ButtonGeneric'>Booking</Link>
       <button className='ButtonGeneric'
