@@ -14,7 +14,26 @@ services:
     tty: true
     networks:
       - dockerNet
+
+  app-db:
+    container_name: app-db
+    image: postgres:15.0-alpine
+    volumes:
+      - app-db:/var/lib/postgresql/data
+      - ./database:/docker-entrypoint-initdb.d
+    environment:
+      POSTGRES_USER: ${POSTGRES_APP_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_APP_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_APP_DB}
+    restart: always
+    ports:
+      - 5433:5433
+    command: -p 5433
+
 networks:
   dockerNet:
     external:
       true
+
+volumes:
+  app-db:
