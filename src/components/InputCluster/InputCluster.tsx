@@ -6,6 +6,7 @@ interface InputCluster{
     buttonText: string;
     serverURL: string;
     onRequestSuccess: () => void;
+    onClick: () => Promise<void>;
 }
 
 const InputCluster: React.FC<InputCluster> = ({ placeholder: title, buttonText, serverURL }) => {
@@ -63,7 +64,7 @@ const InputCluster: React.FC<InputCluster> = ({ placeholder: title, buttonText, 
             {logMessage && <p style={{ color: 'green' }}>{logMessage}</p>}
             {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
         </div>
-    )
+    );
 }
 
 export default InputCluster;
