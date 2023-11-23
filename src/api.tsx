@@ -17,4 +17,38 @@ export async function bookKursi(acaraId: number, kursiId: number, userId: number
   
     return response.json();
   }
+
+  export async function getAcaraList(): Promise<string[]> {
+    const apiUrl = 'http://localhost:3100/api/acara-list';
+  
+    const response = await fetch(apiUrl, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+  
+    if (!response.ok) {
+      throw new Error(`Error fetching acara list: ${response.statusText}`);
+    }
+  
+    return response.json();
+  }
+  
+  export async function getKursiList(): Promise<number[]> {
+    const apiUrl = 'http://localhost:3100/api/kursi-list';
+  
+    const response = await fetch(apiUrl, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+  
+    if (!response.ok) {
+      throw new Error(`Error fetching kursi list: ${response.statusText}`);
+    }
+  
+    return response.json();
+  }
   
