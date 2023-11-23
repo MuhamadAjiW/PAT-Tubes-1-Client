@@ -60,6 +60,7 @@ const BookingPage: React.FC = () => {
     <div className="App">
       <Header title="Booking" />
       <div className='Content'>Booking ceritanya</div>
+
       <InputCluster
         buttonText='Send Request'
         serverURL='http://localhost:3100'
