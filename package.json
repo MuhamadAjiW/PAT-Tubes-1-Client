@@ -10,6 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "esbuild": "^0.19.7",
+    "esbuild-wasm": "^0.19.7",
     "react": "^18.2.0",
     "react-cookie": "^6.1.1",
     "react-dom": "^18.2.0",
