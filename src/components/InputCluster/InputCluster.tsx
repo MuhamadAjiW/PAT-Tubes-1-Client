@@ -1,8 +1,6 @@
 // InputCluster.tsx
-// InputCluster.tsx
 import { useState } from 'react';
 import { useCookies } from 'react-cookie';
-import React from 'react';
 
 interface InputClusterProps {
   buttonText: string;
@@ -34,34 +32,11 @@ const InputCluster: React.FC<InputClusterProps> = ({
   const [loading, setLoading] = useState(false);
   const [logMessage, setLogMessage] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-const InputCluster: React.FC<InputClusterProps> = ({
-  buttonText,
-  serverURL,
-  onRequestSuccess,
-  onClick,
-  acaraList,
-  selectedAcara,
-  onSelectAcara,
-  kursiList,
-  selectedKursi,
-  onSelectKursi,
-}) => {
-  const [inputData, setInputData] = useState('');
-  const [cookies, setCookie] = useCookies(['token']);
-  const [loading, setLoading] = useState(false);
-  const [logMessage, setLogMessage] = useState<string | null>(null);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const headers: HeadersInit = {
     "Content-Type": "application/json",
   };
-  const headers: HeadersInit = {
-    "Content-Type": "application/json",
-  };
   
-  if (cookies.token) {
-    headers["Authorization"] = `Bearer ${cookies.token}`;
-  }
   if (cookies.token) {
     headers["Authorization"] = `Bearer ${cookies.token}`;
   }
@@ -87,7 +62,7 @@ const InputCluster: React.FC<InputClusterProps> = ({
     <div>
       <select
         value={selectedAcara || ''}
-        onChange={(e) => onSelectAcara(parseInt(e.target.value) || null)}
+        onChange={(e) => onSelectAcara(e.target.value || null)}
       >
         <option value="" disabled>Select Acara</option>
         {acaraList.map((acara) => (
@@ -120,4 +95,3 @@ const InputCluster: React.FC<InputClusterProps> = ({
 };
 
 export default InputCluster;
-

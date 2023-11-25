@@ -89,16 +89,6 @@ const BookingPage: React.FC = () => {
         selectedKursi={selectedKursi}
         onSelectKursi={setSelectedKursi}
       />
-        serverURL='http://localhost:3100'
-        onClick={handleBookKursi}
-        onRequestSuccess={() => handleRequestSuccess()}
-        acaraList={acaraList}
-        selectedAcara={selectedAcara}
-        onSelectAcara={setSelectedAcara}
-        kursiList={kursiList}
-        selectedKursi={selectedKursi}
-        onSelectKursi={setSelectedKursi}
-      />
       {requestSuccess && (
         <Link to="/payment" className='ButtonGeneric' style={{ marginTop: '10px' }}>
           Payment
