@@ -15,3 +15,10 @@ INSERT INTO users (full_name, email, password, username, isAdmin) VALUES
   ('John Doe', 'john@example.com', '$2y$10$hashedPassword', 'john_doe', false),
   ('Jane Doe', 'jane@example.com', '$2y$10$hashedPassword', 'jane_doe', false),
   ('Admin User', 'admin@example.com', '$2y$10$hashedPassword', 'admin_user', true);
+
+
+-- Dummy data for users table
+INSERT INTO users (full_name, email, password, username, isAdmin) VALUES
+  ('John Doe', 'john@example.com', '$2y$10$hashedPassword', 'john_doe', false),
+  ('Jane Doe', 'jane@example.com', '$2y$10$hashedPassword', 'jane_doe', false),
+  ('Admin User', 'admin@example.com', '$2y$10$hashedPassword', 'admin_user', true);
