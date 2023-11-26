@@ -12,6 +12,7 @@ const BookingPage: React.FC = () => {
   const [kursiList, setKursiList] = useState<number[]>([]);
   const [selectedKursi, setSelectedKursi] = useState<number | null>(null);
   const [requestSuccess, setRequestSuccess] = useState<boolean>(false);
+  const [email, setEmail] = useState<string>('');
 
   // Fetch acara list
   const fetchAcaraList = async () => {
@@ -54,26 +55,24 @@ const BookingPage: React.FC = () => {
   };
 
   const handleBookKursi = async () => {
-    if (selectedAcara === null || selectedKursi === null) {
-      console.error('Please select acara and kursi');
-      console.log('selectedAcara:', selectedAcara);
-      console.log('selectedKursi:', selectedKursi);
-      // await bookKursi(selectedAcara, selectedKursi, 1);
-      return;
-    }
-    try {
-      await bookKursi(selectedAcara, selectedKursi, 1);
-      handleRequestSuccess();
-    } catch (error) {
-      console.error('Error booking kursi:', error);
-    }
-  };
+      if (selectedAcara === null || selectedKursi === null || email === '') {
+        console.error('Please select acara and kursi and enter email');
+        return;
+      }
+      try {
+        await bookKursi(selectedAcara, selectedKursi, 1, email);
+        handleRequestSuccess();
+      } catch (error) {
+        console.error('Error booking kursi:', error);
+      }
+    };
 
 
   return (
     <div className="App">
       <Header title="Booking" />
       <div className='Content'>Booking ceritanya</div>
+      <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="Enter email" />
       <InputCluster
         buttonText='Send Request'
         serverURL='http://localhost:3100'
