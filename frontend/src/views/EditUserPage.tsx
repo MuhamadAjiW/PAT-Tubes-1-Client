@@ -2,9 +2,17 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
+interface User {
+  user_id: number;
+  full_name: string;
+  email: string;
+  username: string;
+  isadmin: boolean;
+}
+
 const EditUserPage: React.FC = () => {
-  const [users, setUsers] = useState([]);
-  const [selectedUser, setSelectedUser] = useState(null);
+  const [users, setUsers] = useState<User[]>([]);
+	const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
@@ -21,7 +29,7 @@ const EditUserPage: React.FC = () => {
     fetchUsers();
   }, []);
 
-  const handleEditClick = (user) => {
+  const handleEditClick = (user: User) => {
     setSelectedUser(user);
     setFullName(user.full_name);
     setEmail(user.email);
@@ -30,7 +38,7 @@ const EditUserPage: React.FC = () => {
   };
 
   // Add a new function to handle the delete click
-  const handleDeleteClick = (userId) => {
+  const handleDeleteClick = (userId: number) => {
 		fetch(`http://localhost:5174/user?userId=${userId}`, {
           method: 'DELETE',
         })
