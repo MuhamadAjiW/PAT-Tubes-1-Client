@@ -1,5 +1,4 @@
 // BookingPage.tsx
-// BookingPage.tsx
 import { Link } from 'react-router-dom';
 import Header from '../components/Header/Header';
 import InputCluster from '../components/InputCluster/InputCluster';
@@ -74,9 +73,7 @@ const BookingPage: React.FC = () => {
   return (
     <div className="App">
       <Header title="Booking" />
-      <Header title="Booking" />
       <div className='Content'>Booking ceritanya</div>
-
       <InputCluster
         buttonText='Send Request'
         serverURL='http://localhost:3100'
@@ -100,4 +97,3 @@ const BookingPage: React.FC = () => {
 };
 
 export default BookingPage;
-
