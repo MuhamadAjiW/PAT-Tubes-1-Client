@@ -32,9 +32,10 @@ const HomePage: React.FC = () => {
         <span style={{ color: 'blue' }}>U</span>
         <span style={{ color: 'green' }}>D</span>
       </h3>
+      <p>Asumsi ini admin bisa add edit dan delete user ya</p>
 
       <Link to="/register" className='ButtonGeneric' style={{ marginLeft: "10px" }}>Add User</Link>
-      <Link to="/edit-users" className='ButtonGeneric' style={{ marginLeft: "10px" }}>Edit Users</Link>
+      <Link to="/edit-users" className='ButtonGeneric' style={{ marginLeft: "10px" }}>Edit and Delete Users</Link>
       {feedback && <p>{feedback}</p>}
     </div>
   );
