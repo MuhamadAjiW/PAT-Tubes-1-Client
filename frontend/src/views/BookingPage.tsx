@@ -54,38 +54,41 @@ const BookingPage: React.FC = () => {
     setRequestSuccess(true);
   };
 
-  const handleBookKursi = async () => {
-      if (selectedAcara === null || selectedKursi === null || email === '') {
-        console.error('Please select acara and kursi and enter email');
-        return;
-      }
-      try {
-        await bookKursi(selectedAcara, selectedKursi, 1, email);
-        
-        // booking history
-        const historyResult = await fetch('http://localhost:5174/booking', {
+// BookingPage.tsx
+const handleBookKursi = async () => {
+  if (selectedAcara === null || selectedKursi === null || email === '') {
+      console.error('Please select acara and kursi and enter email');
+      return;
+  }
+  try {
+      await bookKursi(selectedAcara, selectedKursi, 1, email);
+      const shouldFail = Math.random() < 0.2;
+
+      // booking history
+      const historyResult = await fetch('http://localhost:5174/booking', {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json',
+              'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            kursi_id: selectedKursi,
-            acara_id: selectedAcara,
-            email,
+              kursi_id: selectedKursi,
+              acara_id: selectedAcara,
+              email,
+              shouldFail, 
           }),
-        });
+      });
 
-        if (!historyResult.ok) {
+      if (!historyResult.ok) {
           console.error('Error creating booking history');
-          // Handle error creating booking history as needed
           return;
-        }
-
-        handleRequestSuccess();
-      } catch (error) {
-        console.error('Error booking kursi:', error);
       }
-    };
+
+      handleRequestSuccess();
+  } catch (error) {
+      console.error('Error booking kursi:', error);
+  }
+};
+
 
 
   return (

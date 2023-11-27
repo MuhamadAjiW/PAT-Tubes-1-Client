@@ -104,22 +104,31 @@ app.delete('/user', async (req: Request, res: Response) => {
   }
 });
 
-// history booking
+// server.ts
 app.post('/booking', async (req: Request, res: Response) => {
-  const { kursi_id, acara_id, email } = req.body;
+  const { kursi_id, acara_id, email, shouldFail } = req.body;
 
   try {
-    const result = await pool.query(
-      'INSERT INTO histories (kursi_id, acara_id, email, waktu, status) VALUES ($1, $2, $3, $4, $5) RETURNING *',
-      [acara_id, kursi_id, email, new Date(), 'PENDING']
-    );
+      if (shouldFail) {
+          const result = await pool.query(
+            'INSERT INTO histories (kursi_id, acara_id, email, waktu, status) VALUES ($1, $2, $3, $4, $5) RETURNING *',
+              [acara_id, kursi_id, email, new Date(), 'FAILED']
+          );
+          res.status(200).send({ message: 'History added successfully', history: result.rows[0] });
+      } else {
+          const result = await pool.query(
+              'INSERT INTO histories (kursi_id, acara_id, email, waktu, status) VALUES ($1, $2, $3, $4, $5) RETURNING *',
+              [acara_id, kursi_id, email, new Date(), 'BOOKED']
+          );
 
-    res.status(200).send({ message: 'History added successfully', history: result.rows[0] });
+          res.status(200).send({ message: 'History added successfully', history: result.rows[0] });
+      }
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Error generating history', error });
+      console.error(error);
+      res.status(500).json({ message: 'Error generating history', error });
   }
 });
+
 
 app.listen(5174, () => {
   console.log('Server is running on port 5174');
