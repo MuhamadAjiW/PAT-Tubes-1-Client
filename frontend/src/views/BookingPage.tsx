@@ -13,14 +13,15 @@ const BookingPage: React.FC = () => {
   const [selectedKursi, setSelectedKursi] = useState<number | null>(null);
   const [requestSuccess, setRequestSuccess] = useState<boolean>(false);
   const [email, setEmail] = useState<string>('');
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   // Fetch acara list
   const fetchAcaraList = async () => {
     try {
       const acaraData = await getAcaraList();
-      setAcaraList(acaraData); // Set acaraList to acaraData
+      setAcaraList(acaraData); 
       if (acaraData.length > 0) {
-        setSelectedAcara(acaraData[0]); // Set selectedAcara to the first item in acaraData
+        setSelectedAcara(acaraData[0]); 
       }
     } catch (error) {
       console.error('Error fetching acara list:', error);
@@ -33,7 +34,7 @@ const BookingPage: React.FC = () => {
       const kursiData = await getKursiList(acaraId);
       setKursiList(kursiData);
       if (kursiData.length > 0) {
-        setSelectedKursi(kursiData[0]); // Set selectedKursi to the first item in kursiData
+        setSelectedKursi(kursiData[0]); 
       }
     } catch (error) {
       console.error('Error fetching kursi list:', error);
@@ -54,42 +55,51 @@ const BookingPage: React.FC = () => {
     setRequestSuccess(true);
   };
 
-// BookingPage.tsx
-const handleBookKursi = async () => {
-  if (selectedAcara === null || selectedKursi === null || email === '') {
+  const handleBookKursi = async () => {
+    if (selectedAcara === null || selectedKursi === null || email === '') {
       console.error('Please select acara and kursi and enter email');
       return;
-  }
-  try {
-      await bookKursi(selectedAcara, selectedKursi, 1, email);
-      const shouldFail = Math.random() < 0.2;
-
+    }
+    //PERSENTASE FAIL BOOKING
+    const shouldFail = Math.random() < 0.2;
+    try {
+      if (!shouldFail) {
+        await bookKursi(selectedAcara, selectedKursi, 1, email);
+        setErrorMessage(null); 
+      } else {
+        setErrorMessage('Pemanggilan Eksternal Gagal (fail booking)');
+        setRequestSuccess(false); 
+      }
       // booking history
       const historyResult = await fetch('http://localhost:5174/booking', {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-              kursi_id: selectedKursi,
-              acara_id: selectedAcara,
-              email,
-              shouldFail, 
-          }),
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          kursi_id: selectedKursi,
+          acara_id: selectedAcara,
+          email,
+          shouldFail, 
+        }),
       });
-
+  
       if (!historyResult.ok) {
-          console.error('Error creating booking history');
-          return;
+        console.error('Error creating booking history');
+        return;
       }
 
       handleRequestSuccess();
-  } catch (error) {
+  
+      if (!shouldFail) {
+        handleRequestSuccess();
+        setErrorMessage(null); 
+      }
+    } catch (error) {
       console.error('Error booking kursi:', error);
-  }
-};
-
-
+      setRequestSuccess(false);
+    }
+  };
 
   return (
     <div className="App">
@@ -100,7 +110,6 @@ const handleBookKursi = async () => {
         buttonText='Send Request'
         serverURL='http://localhost:3100'
         onClick={handleBookKursi}
-        onRequestSuccess={() => handleRequestSuccess()}
         acaraList={acaraList}
         selectedAcara={selectedAcara}
         onSelectAcara={setSelectedAcara}
@@ -108,7 +117,10 @@ const handleBookKursi = async () => {
         selectedKursi={selectedKursi}
         onSelectKursi={setSelectedKursi}
       />
-      {requestSuccess && (
+      {errorMessage && (
+        <div className='ErrorMessage' style={{ color: 'red' }}>{errorMessage}</div>
+      )}
+      {!errorMessage && requestSuccess && (
         <Link to="/payment" className='ButtonGeneric' style={{ marginTop: '10px' }}>
           Payment
         </Link>

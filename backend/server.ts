@@ -104,7 +104,7 @@ app.delete('/user', async (req: Request, res: Response) => {
   }
 });
 
-// server.ts
+// history
 app.post('/booking', async (req: Request, res: Response) => {
   const { kursi_id, acara_id, email, shouldFail } = req.body;
 
@@ -112,13 +112,13 @@ app.post('/booking', async (req: Request, res: Response) => {
       if (shouldFail) {
           const result = await pool.query(
             'INSERT INTO histories (kursi_id, acara_id, email, waktu, status) VALUES ($1, $2, $3, $4, $5) RETURNING *',
-              [acara_id, kursi_id, email, new Date(), 'FAILED']
+              [kursi_id, acara_id, email, new Date(), 'FAILED']
           );
           res.status(200).send({ message: 'History added successfully', history: result.rows[0] });
       } else {
           const result = await pool.query(
               'INSERT INTO histories (kursi_id, acara_id, email, waktu, status) VALUES ($1, $2, $3, $4, $5) RETURNING *',
-              [acara_id, kursi_id, email, new Date(), 'BOOKED']
+              [kursi_id, acara_id, email, new Date(), 'BOOKED']
           );
 
           res.status(200).send({ message: 'History added successfully', history: result.rows[0] });

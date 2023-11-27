@@ -6,7 +6,6 @@ import React from 'react';
 interface InputClusterProps {
   buttonText: string;
   serverURL: string;
-  onRequestSuccess: () => void;
   onClick: () => Promise<void>;
   acaraList: number[];
   selectedAcara: number | null;
@@ -19,7 +18,6 @@ interface InputClusterProps {
 const InputCluster: React.FC<InputClusterProps> = ({
   buttonText,
   serverURL,
-  onRequestSuccess,
   onClick,
   acaraList,
   selectedAcara,
@@ -49,8 +47,7 @@ const InputCluster: React.FC<InputClusterProps> = ({
   
     try {
       await onClick(); 
-      onRequestSuccess(); 
-      setLogMessage('Success'); 
+      setLogMessage('Dor! Nembak ke DB'); 
     } catch (error: any) {
       console.error('Request error', error);
       setErrorMessage(`Error: ${error.message}`);
