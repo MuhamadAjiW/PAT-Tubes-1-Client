@@ -61,6 +61,26 @@ const BookingPage: React.FC = () => {
       }
       try {
         await bookKursi(selectedAcara, selectedKursi, 1, email);
+        
+        // booking history
+        const historyResult = await fetch('http://localhost:5174/booking', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            kursi_id: selectedKursi,
+            acara_id: selectedAcara,
+            email,
+          }),
+        });
+
+        if (!historyResult.ok) {
+          console.error('Error creating booking history');
+          // Handle error creating booking history as needed
+          return;
+        }
+
         handleRequestSuccess();
       } catch (error) {
         console.error('Error booking kursi:', error);
