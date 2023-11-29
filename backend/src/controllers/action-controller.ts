@@ -12,7 +12,7 @@ import { HistoryRepository } from "../repository/history-repository";
 import { BOOKING_SERVER_URL, SERVER_API_KEY } from "../utils/config";
 import axios from "axios";
 import { BookingRequest } from "../types/BookingRequest";
-import { AxiosError } from "axios";
+import { HistoryData } from "../types/HistoryData";
 
 export class ActionController{
     private historyRepository: HistoryRepository;
@@ -35,11 +35,33 @@ export class ActionController{
 
             let axiosResponse = await axios.post(serverUrl, bookingRequest, { headers: headers }).then(
                 (response) => {
-                    res.status(StatusCodes.OK).json({
-                        message: "Request successful",
-                        valid: true,
-                        data: response.data
-                    });
+                    if(!response.data.valid){
+
+                        console.log(response.data)
+                        const url = "/api/book/file?signature=" + response.data.data.signature
+                        this.historyRepository.createHistory({
+                            kursi_id: bookingRequest.kursiId,
+                            acara_id: bookingRequest.acaraId,
+                            email: bookingRequest.email,
+                            booking_id: response.data.data.bookingId,
+                            invoice_number: response.data.data.invoiceNumber,
+                            pdf_url: url
+                        }, false)
+
+                        res.status(StatusCodes.OK).json({
+                            message: "Request returns with a failed booking",
+                            valid: true,
+                            data: BOOKING_SERVER_URL + url
+                        });
+                    }
+                    else{
+                        res.status(StatusCodes.OK).json({
+                            message: "Request successful",
+                            valid: true,
+                            data: response.data
+                        });
+                    }
+
                 }
             ).catch(
                 function(error){
@@ -62,9 +84,6 @@ export class ActionController{
                     }
                 }
             );
-            
-
-
         }
     }
 
