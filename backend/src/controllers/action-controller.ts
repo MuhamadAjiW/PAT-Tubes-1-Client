@@ -9,7 +9,7 @@ import { NotFoundError } from "../types/errors/NotFoundError";
 import { UnauthorizedError } from "../types/errors/UnauthorizedError";
 import { z } from "zod";
 import { HistoryRepository } from "../repository/history-repository";
-import { BOOKING_SERVER_URL, SERVER_API_KEY } from "../utils/config";
+import { BOOKING_SERVER_PUBLIC_URL, BOOKING_SERVER_URL, SERVER_API_KEY } from "../utils/config";
 import axios from "axios";
 import { BookingRequest } from "../types/BookingRequest";
 import { HistoryData } from "../types/HistoryData";
@@ -51,7 +51,7 @@ export class ActionController{
                         res.status(StatusCodes.OK).json({
                             message: "Request returns with a failed booking",
                             valid: true,
-                            data: BOOKING_SERVER_URL + url
+                            data: BOOKING_SERVER_PUBLIC_URL + url
                         });
                     }
                     else{
