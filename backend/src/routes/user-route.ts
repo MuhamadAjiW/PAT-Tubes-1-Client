@@ -15,13 +15,13 @@ export class UserRoute implements Route{
                 this.userController.register())
             .post('/login',
                 this.userController.login())
-            .get('/user',
+            .get('/api/user',
                 this.userController.fetchAll())
-            .get('/user/:identifier',
+            .get('/api/user/:identifier',
                 this.userController.fetchById())
-            .put('/user/:identifier',
+            .put('/api/user/:identifier',
                 this.userController.updateById())
-            .delete('/user/:identifier',
+            .delete('/api/user/:identifier',
                 this.userController.deleteById())
     }
 }
